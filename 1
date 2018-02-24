@@ -1,0 +1,63 @@
+
+ #include <iostream>
+ using namespace std;
+
+ struct  node{
+   int data;
+   node* next;
+ };
+
+ class List{
+      node *head;
+
+  public:
+
+    List(): head(new node){
+        head -> next = head;
+        head -> data = 0;
+        }
+
+    void push(int x){
+
+        node* temp = new node;
+        node* tail = head;
+        while (tail -> next != head)
+             tail = tail -> next;
+        temp -> next = head;
+        tail -> next = temp;
+        temp -> data = x;
+        head = temp;
+
+        }
+
+    ~List(){
+        node* p = head;
+        while (head -> next != p){
+            node* temp = head -> next;
+            delete head;
+            head = temp;
+        }
+    }
+
+    void print (){
+        node* temp = head;
+        while (temp -> next != head){
+                cout << temp -> data << " ";
+                temp = temp -> next;
+        }
+    }
+};
+
+
+
+
+
+
+int main(){
+    List lst;
+    lst.push(1);
+    lst.push(2);
+    lst.push(3);
+    lst.print();
+    return 0;
+}
