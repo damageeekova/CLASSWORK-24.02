@@ -1,63 +1,96 @@
+    #include <iostream>
+    using namespace std;
 
- #include <iostream>
- using namespace std;
+     struct  node{
+       int data;
+       node* next;
+     };
 
- struct  node{
-   int data;
-   node* next;
- };
+     class List{
+          node *head;
 
- class List{
-      node *head;
+      public:
 
-  public:
+        List(): head(new node){
+            head -> next = head;
+            head -> data = 0;
+            }
 
-    List(): head(new node){
-        head -> next = head;
-        head -> data = 0;
-        }
+        List(List&A){
+            head=A.head;
+            node* temp = A.head;
+            while(temp!=head){
+            push(temp->data);
+            temp = temp->next;
+                }
+            }
 
-    void push(int x){
+        void push(int x){
 
-        node* temp = new node;
-        node* tail = head;
-        while (tail -> next != head)
-             tail = tail -> next;
-        temp -> next = head;
-        tail -> next = temp;
-        temp -> data = x;
-        head = temp;
-
-        }
-
-    ~List(){
-        node* p = head;
-        while (head -> next != p){
-            node* temp = head -> next;
-            delete head;
+            node* temp = new node;
+            node* tail = head;
+            while (tail -> next != head)
+                 tail = tail -> next;
+            temp -> next = head;
+            tail -> next = temp;
+            temp -> data = x;
             head = temp;
+            }
+
+        int pop_front(){
+            node* temp = head;
+            head = head -> next;
+            return temp -> data;
         }
-    }
 
-    void print (){
-        node* temp = head;
-        while (temp -> next != head){
-                cout << temp -> data << " ";
-                temp = temp -> next;
+        int pop_back (){
+            node* p = head -> next;
+            while (p -> next != head)
+                p = p -> next;
+            node* temp = p;
+            p = head;
+            return temp -> data;
         }
+
+        ~List(){
+            node* p = head;
+            while (head -> next != p){
+                node* temp = head -> next;
+                delete head;
+                head = temp;
+            }
+        }
+
+        void print (){
+            node* temp = head;
+            while (temp -> next != head){
+                    cout << temp -> data << " ";
+                    temp = temp -> next;
+            }
+        }
+    };
+
+
+
+
+
+
+    int main(){
+        List lst;
+        lst.push(1);
+        lst.push(2);
+        lst.push(3);
+        lst.print();
+        List LIST(lst);
+        cout << endl;
+        lst.pop_front();
+        lst.print();
+        cout << endl;
+        lst.push(3);
+        lst.print();
+        cout << endl;
+        LIST.print();
+        cout << endl;
+        lst.pop_back();
+        lst.print();
     }
-};
-
-
-
-
-
-
-int main(){
-    List lst;
-    lst.push(1);
-    lst.push(2);
-    lst.push(3);
-    lst.print();
-    return 0;
-}
